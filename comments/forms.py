@@ -7,19 +7,40 @@ from captcha.fields import CaptchaField
 UserModel = get_user_model()
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+
 class PostCreateForm(forms.ModelForm):
-    file = forms.FileField(required=False, label="Attach File")
+    files = MultipleFileField(
+        required=False,
+        label="Attach Files",
+    )
     captcha = CaptchaField(label="Captcha")
 
     class Meta:
         model = PostModel
-        fields = ['text', 'parent', 'file']
+        fields = ['text', 'parent', 'files']
 
     def save(self, commit=True):
         post = super().save(commit=commit)
 
-        file = self.cleaned_data.get('file')
-        if file:
+        files = self.cleaned_data.get('files')
+        for file in files:
             Attachment.objects.create(
                 post=post,
                 file=file,

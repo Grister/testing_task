@@ -1,37 +1,86 @@
+{% load mathfilters %}
 
-<div class="post__card lvl1">
+<div class="post__card" style="padding-left: {{ level|default:0 }}px;">
     <div class="card-header">
         <div class="left">
-            <img src="/media/{{post.user.image}}" alt="photo">
-            <div class="author__name">{{post.user.username}}</div>
+            <img src="/media/{{obj.user.image}}" alt="photo">
+            <div class="author__name">{{obj.user.username}}</div>
         </div>
         <div class="right">
-            <a href="#" class="btn btn-like">
+            <a href="{% url 'comments:like_post' obj.id %}" class="btn btn-like">
                 <img src="/static/icons/like.svg" alt="like">
             </a>
-            <div class="like-counter">5</div>
-            <a href="#" class="btn btn-dislike">
+            <div class="like-counter">{{ obj.likes.count|sub:obj.dislikes.count }}</div>
+            <a href="{% url 'comments:dislike_post' obj.id %}" class="btn btn-dislike">
                 <img src="/static/icons/like.svg" alt="dislike">
             </a>
         </div>
     </div>
     <div class="post__body">
         <div>
-            <p class="card-text">{{ post.text }}</p>
+            <p class="card-text">{{ obj.text }}</p>
+        </div>
+        <div class="attached">
+            {% if obj.attachments %}
+                {% for a in obj.attachments.all %}
+                <a href="/media/{{ a.file }}" data-lightbox="{{ a.file }}">
+                    <img src="/media/{{ a.file }}" alt="attached_file">
+                </a>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
     <div class="card-footer">
         <div class="btn-group">
-            {% if user == post.user %}
-            <a href="#" class="btn btn-delete">
-                Delete
-            </a>
-            {% else %}
-            <a href="#" class="btn btn-delete">
-                Reply
-            </a>
-            {% endif %}
+            <label class="btn">
+                <input class="btn-reply" type="checkbox" /> Reply
+            </label>
         </div>
-        <div class="card-date">{{ post.created_at }}</div>
+        <div class="card-date">{{ obj.created_at }}</div>
+    </div>
+    <div class="post-create reply-form">
+        <form method="post" class="post__form" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <input type="hidden" name="parent" value="{{ obj.id }}" />
+
+            <div class="form__input">
+                <label for="{{ form.text.id_for_label }}" class="form-label">
+                    {{ form.text.label }}
+                </label>
+                {{ form.text }}
+                {% for error in form.text.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form__input">
+                <label for="{{ form.files.id_for_label }}" class="form-label">
+                    {{ form.files.label }}
+                </label>
+                {{ form.files }}
+                {% for error in form.files.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form__input">
+                <label for="{{ form.captcha.id_for_label }}" class="form-label">
+                    {{ form.captcha.label }}
+                </label>
+                {{ form.captcha }}
+                {% for error in form.captcha.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Reply</button>
+        </form>
     </div>
 </div>
+
+{% if obj.replies %}
+    {% for obj in obj.replies.all %}
+        {% include 'comments/_post.html' with level=level|default:0|add:50 %}
+    {% endfor %}
+{% endif %}

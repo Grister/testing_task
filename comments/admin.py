@@ -1,3 +1,7 @@
 from django.contrib import admin
+from comments.models import PostModel
 
-# Register your models here.
+
+@admin.register(PostModel)
+class UserModelAdmin(admin.ModelAdmin):
+    ...
