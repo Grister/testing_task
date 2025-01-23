@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="/static/css/style.css" rel="stylesheet">
+    {% block style %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar__wrapper">
+        <a href="{% url 'comments:index' %}" class="navbar__item">Blog</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'comments:index' %}" class="navbar__item">Create new post</a>
+        {% endif %}
+        <div class="navbar__sidepanel">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="navbar__item">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'users:sign_in' %}" class="navbar__item">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap');
+
+:root {
+    --dark-grey: #2b3035;
+    --grey: #676767;
+    --light-grey: #d1cfcf;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #F0F0F0;
+}
+
+.container {
+    width: 975px;
+    margin: 0 auto;
+    padding: 50px 0;
+}
+
+.navbar__wrapper {
+    background-color: var(--dark-grey);
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    height: 70px;
+    align-items: center;
+    padding: 0 30px;
+    .navbar__item {
+        color: #fff;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: 500;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+.post__card {
+    margin-bottom: 25px;
+    .post__body {
+        padding: 10px;
+    }
+    .card-header {
+        background: var(--light-grey);
+        display: flex;
+        height: 60px;
+        padding-left: 12px;
+        padding-right: 12px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            img {
+                display: block; 
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+            }
+            .author__name {
+                font-weight: 700;
+            }
+        }
+        .right {
+            display: flex;
+            gap: 10px;
+            .btn {
+                display: flex;
+                align-items: center;
+            }
+            .btn-dislike {
+                rotate: 180deg;
+            }
+        }
+    }
+    .card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        a {
+            display: flex;
+            color: var(--dark-grey);
+            font-size: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+        .card-date {
+            color: var(--grey);
+            font-size: 14px;
+            font-style: italic;
+        }
+    }
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.lvl2 {
+    padding-left: 100px;
+}
+
+.lvl3 {
+    padding-left: 200px;
+}
