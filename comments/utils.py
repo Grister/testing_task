@@ -33,3 +33,15 @@ def validate_html(text):
         raise ValueError()
 
     return cleaned_text
+
+
+def validate_files(files):
+    for file in files:
+        if file.content_type not in ['image/jpeg', 'image/png', 'image/gif', 'text/plain']:
+            raise ValueError()
+
+        elif file.content_type == 'text/plain':
+            if file.size > 100 * 1024:  # 100 KB
+                raise ValueError()
+
+    return True
