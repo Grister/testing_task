@@ -18,7 +18,7 @@
     </div>
     <div class="post__body">
         <div>
-            <p class="card-text">{{ obj.text }}</p>
+            <p class="card-text">{{ obj.text|safe }}</p>
         </div>
         <div class="attached">
             {% if obj.attachments %}

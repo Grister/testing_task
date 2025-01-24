@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 
 from comments.models import PostModel, Attachment
+from comments.utils import validate_html
 from captcha.fields import CaptchaField
 
 UserModel = get_user_model()
@@ -35,6 +36,14 @@ class PostCreateForm(forms.ModelForm):
     class Meta:
         model = PostModel
         fields = ['text', 'parent', 'files']
+
+    def clean_text(self):
+        text = self.cleaned_data["text"]
+        try:
+            cleaned_text = validate_html(text)
+        except ValueError as e:
+            raise forms.ValidationError(f"Error in HTML tags")
+        return cleaned_text
 
     def save(self, commit=True):
         post = super().save(commit=commit)
