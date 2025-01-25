@@ -2,7 +2,6 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -13,12 +12,11 @@ from comments import models
 from comments.forms import PostCreateForm
 
 
-class PostView(LoginRequiredMixin, CreateView, ListView):
+class PostView(CreateView, ListView):
     model = models.PostModel
     template_name = 'comments/index.html'
     paginate_by = 25
     form_class = PostCreateForm
-    login_url = '/sign-in/'
     success_url = reverse_lazy('comments:index')
 
     def form_valid(self, form):
@@ -29,6 +27,9 @@ class PostView(LoginRequiredMixin, CreateView, ListView):
         return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('/sign-in/')
+
         self.object_list = self.get_queryset()
         return super().post(request, *args, **kwargs)
 

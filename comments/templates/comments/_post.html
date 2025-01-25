@@ -38,9 +38,12 @@
     </div>
     <div class="card-footer">
         <div class="btn-group">
+            {% if user.is_authenticated %}
             <label class="btn">
                 <input class="btn-reply" type="checkbox" /> Reply
             </label>
+            {% endif %}
+
         </div>
         <div class="card-date">{{ obj.created_at }}</div>
     </div>
