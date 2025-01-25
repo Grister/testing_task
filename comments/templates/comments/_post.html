@@ -18,14 +18,20 @@
     </div>
     <div class="post__body">
         <div>
-            <p class="card-text">{{ obj.text }}</p>
+            <p class="card-text">{{ obj.text|safe }}</p>
         </div>
         <div class="attached">
             {% if obj.attachments %}
                 {% for a in obj.attachments.all %}
-                <a href="/media/{{ a.file }}" data-lightbox="{{ a.file }}">
-                    <img src="/media/{{ a.file }}" alt="attached_file">
-                </a>
+                    {% if a.file_type == 'text' %}
+                        <a href="/media/{{ a.file }}">
+                            <img src="/static/images/attachment.png" alt="attached_file" style="border: 2px solid black">
+                        </a>
+                    {% else %}
+                        <a href="/media/{{ a.file }}" data-lightbox="{{ a.file }}">
+                            <img src="/media/{{ a.file }}" alt="attached_file">
+                        </a>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>

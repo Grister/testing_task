@@ -1,6 +1,6 @@
-from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, FormView
-from django.views.generic.edit import DeleteView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView
+from django.views.generic.edit import CreateView
 from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -25,7 +25,6 @@ class PostView(LoginRequiredMixin, CreateView, ListView):
         form.instance.user = self.request.user
         parent_id = form.cleaned_data.get('parent')
         if parent_id:
-            # parent_post = get_object_or_404(PostModel, id=parent_id)
             form.instance.parent = parent_id
         return super().form_valid(form)
 

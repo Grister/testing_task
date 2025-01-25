@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -34,6 +35,22 @@ class Attachment(models.Model):
         ('text', 'Text')
     ])
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def save(
+        self,
+        *args,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+    ):
+        super().save()
+
+        if self.file_type == 'image':
+            img = Image.open('media/' + self.file.name)
+            if img.width > 320 or img.height > 240:
+                img.thumbnail((320, 240))
+                img.save('media/' + self.file.name)
 
 
 class LikeModel(models.Model):
