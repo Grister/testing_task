@@ -5,3 +5,4 @@ Pillow==11.1.0
 django-simple-captcha==0.6.1
 django-mathfilters==1.0.0
 gunicorn==20.1.0
+whitenoise==6.8.2
