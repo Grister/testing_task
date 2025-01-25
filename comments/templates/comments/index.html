@@ -1,0 +1,117 @@
+{% extends 'comments/base.html' %}
+
+{% block title %}Blog{% endblock %}
+{% block style %}
+    <link href="/static/css/lightbox.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <div class="post-create">
+        <h5 class="post-create__title">Create a new post</h5>
+
+        <form method="post" class="post__form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form__input">
+                <label for="{{ form.text.id_for_label }}" class="form-label">
+                    {{ form.text.label }}
+                </label>
+                {{ form.text }}
+                {% for error in form.text.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form__input">
+                <label for="{{ form.files.id_for_label }}" class="form-label">
+                    {{ form.files.label }}
+                </label>
+                {{ form.files }}
+                {% for error in form.files.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="form__input">
+                <label for="{{ form.captcha.id_for_label }}" class="form-label">
+                    {{ form.captcha.label }}
+                </label>
+                {{ form.captcha }}
+                {% for error in form.captcha.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create post</button>
+        </form>
+
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sorting">
+        <button class="dropbtn">Sort by</button>
+        <div class="sorting-content">
+            <a href="?filter=username">username</a>
+            <a href="?filter=email">email</a>
+            <a href="?filter=newest">newest</a>
+            <a href="?filter=oldest">oldest</a>
+        </div>
+    </div>
+
+
+    <div id="cards__wrapper"></div>
+
+    {% for obj in object_list %}
+        {% include 'comments/_post.html' %}
+    {% endfor %}
+
+    <div class="pagination">
+        <a href="?page=1" class="page first-page {% if not page_obj.has_previous %} disable {% endif %}">
+            <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M10.071 7.07099L4.414 12.728L3 11.314L7.95 6.36399L3 1.414L4.414 0L10.071 5.65699C10.2585 5.84449 10.3638 6.09889 10.3638 6.36399C10.3638 6.62919 10.2585 6.88349 10.071 7.07099Z"
+                    fill="black" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M16.071 7.07099L10.414 12.728L9 11.314L13.95 6.36399L9 1.414L10.414 0L16.071 5.65699C16.2585 5.84449 16.3638 6.09889 16.3638 6.36399C16.3638 6.62919 16.2585 6.88349 16.071 7.07099Z"
+                    fill="black" />
+            </svg>
+        </a>
+        <a href="?page={% if not page_obj.has_previous %} {{ 1 }} {% else %} {{ page_obj.previous_page_number }} {% endif %}"
+           class="page {% if not page_obj.has_previous %} disable {% endif %}">
+            <svg width="12" height="24" viewBox="0 0 12 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M1.84306 11.289L7.50006 5.63198L8.91406 7.04598L3.96406 11.996L8.91406 16.946L7.50006 18.36L1.84306 12.703C1.65559 12.5155 1.55028 12.2611 1.55028 11.996C1.55028 11.7308 1.65559 11.4765 1.84306 11.289Z"
+                    fill="black" />
+            </svg>
+        </a>
+
+        <span class="current-page">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        <a href="?page={% if not page_obj.has_next %} {{ page_obj.number }} {% else %}{{ page_obj.next_page_number }}{% endif %}"
+           class="page {% if not page_obj.has_next %} disable {% endif %}">
+            <svg width="12" height="24" viewBox="0 0 12 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M10.1569 12.711L4.49994 18.368L3.08594 16.954L8.03594 12.004L3.08594 7.05401L4.49994 5.64001L10.1569 11.297C10.3444 11.4845 10.4497 11.7389 10.4497 12.004C10.4497 12.2692 10.3444 12.5235 10.1569 12.711Z"
+                    fill="black" />
+            </svg>
+        </a>
+        <a href="?page={{ page_obj.paginator.num_pages }}" class="page last-page {% if not page_obj.has_next %} disable {% endif %}">
+            <svg width="17" height="13" viewBox="0 0 17 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M10.071 7.07099L4.414 12.728L3 11.314L7.95 6.36399L3 1.414L4.414 0L10.071 5.65699C10.2585 5.84449 10.3638 6.09889 10.3638 6.36399C10.3638 6.62919 10.2585 6.88349 10.071 7.07099Z"
+                    fill="black" />
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M16.071 7.07099L10.414 12.728L9 11.314L13.95 6.36399L9 1.414L10.414 0L16.071 5.65699C16.2585 5.84449 16.3638 6.09889 16.3638 6.36399C16.3638 6.62919 16.2585 6.88349 16.071 7.07099Z"
+                    fill="black" />
+            </svg>
+        </a>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/static/js/lightbox.js"></script>
+    <script src="/static/js/script.js"></script>
+{% endblock %}

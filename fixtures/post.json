@@ -1,0 +1,102 @@
+[
+  {
+    "model": "comments.postmodel",
+    "pk": 11,
+    "fields": {
+      "user": 1,
+      "text": "Первый пост: Введение в фикстуры Django.",
+      "parent": null,
+      "created_at": "2025-01-01T12:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 12,
+    "fields": {
+      "user": 2,
+      "text": "Второй пост: Как использовать фикстуры в реальных проектах.",
+      "parent": null,
+      "created_at": "2025-01-02T13:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 13,
+    "fields": {
+      "user": 1,
+      "text": "Ответ на первый пост: Отличное введение!",
+      "parent": 11,
+      "created_at": "2025-01-02T14:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 14,
+    "fields": {
+      "user": 2,
+      "text": "Ответ на второй пост: Спасибо за советы!",
+      "parent": 2,
+      "created_at": "2025-01-03T15:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 15,
+    "fields": {
+      "user": 2,
+      "text": "Третий пост: Вложенные комментарии работают прекрасно!",
+      "parent": null,
+      "created_at": "2025-01-04T16:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 16,
+    "fields": {
+      "user": 1,
+      "text": "Ответ на третий пост: Да, действительно удобно!",
+      "parent": 5,
+      "created_at": "2025-01-04T17:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 17,
+    "fields": {
+      "user": 2,
+      "text": "Четвёртый пост: Поддерживаю добавление вложенных комментариев.",
+      "parent": null,
+      "created_at": "2025-01-05T18:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 18,
+    "fields": {
+      "user": 2,
+      "text": "Ответ на четвёртый пост: Полностью согласен.",
+      "parent": 17,
+      "created_at": "2025-01-06T19:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 19,
+    "fields": {
+      "user": 1,
+      "text": "Пятый пост: Спасибо за обратную связь!",
+      "parent": null,
+      "created_at": "2025-01-07T20:00:00Z"
+    }
+  },
+  {
+    "model": "comments.postmodel",
+    "pk": 20,
+    "fields": {
+      "user": 2,
+      "text": "Ответ на пятый пост: Пожалуйста, будем на связи!",
+      "parent": 2,
+      "created_at": "2025-01-08T21:00:00Z"
+    }
+  }
+]
