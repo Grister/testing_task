@@ -9,7 +9,7 @@ UserModel = get_user_model()
 class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'image', 'password1', 'password2')
 
     username = forms.CharField(
         max_length=20,
@@ -22,6 +22,14 @@ class UserRegistrationForm(UserCreationForm):
         widget=forms.EmailInput(attrs={
             'class': "form-control",
             'placeholder': "Enter your email"
+        })
+    )
+    image = forms.FileField(
+        required=False,
+        label="Profile Photo",
+        widget = forms.ClearableFileInput(attrs={
+            'class': "form-control",
+            'accept': "image/*",
         })
     )
     password1 = forms.CharField(

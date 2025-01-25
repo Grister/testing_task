@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     <div class="post-create">
         <h5 class="post-create__title">Create a new post</h5>
 
@@ -43,8 +44,8 @@
 
             <button type="submit" class="btn btn-primary">Create post</button>
         </form>
-
     </div>
+    {% endif %}
 
     <div class="divider"></div>
 
@@ -60,7 +61,6 @@
 
 
     <div id="cards__wrapper"></div>
-
     {% for obj in object_list %}
         {% include 'comments/_post.html' %}
     {% endfor %}
